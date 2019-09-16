@@ -1,0 +1,41 @@
+function [y,y_lab]=features(x,f,index)
+y=[];
+y_lab=[];
+t=1;
+n=length(x);
+n1=1;
+while(n1<n)
+    x1=[];
+    k=0;
+    v=f(n1);
+    n2=n1;
+    while(n2<n)
+        v1=f(n2);
+        if(v==v1)
+            k=k+1;
+            x1(k,:)=x(n2,:);
+            n2=n2+1;
+        else
+            break;
+        end
+    end
+    m=length(x1);
+    if(m>0 && v~=-1)
+        if(index==0)
+            feature=getrmsfeat(x1);
+        elseif(index==1)
+            feature=getwlfeat(x1);
+        elseif(index==2)
+            feature=getiavfeat(x1);
+        elseif(index==3)
+            feature=getzcfeat(x1,1);
+        else
+            feature=getarfeat(x1,3);
+        end
+        y(t,:)=feature;
+        y_lab(t)=v;
+        t=t+1;
+    end
+    n1=n2;
+end
+end
